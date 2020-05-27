@@ -1,0 +1,35 @@
+version: "3.4"
+services:
+  web:
+    depends_on: 
+      - server
+    build: 
+      context: front
+    image: webapp:latest
+    network_mode: host
+    command: flask run --port 5000
+    environment: 
+      NODE_VAR: value
+  
+  server:
+    depends_on: 
+      - redisdb
+    build: 
+      context: server
+    image: server:latest
+    network_mode: host
+    command: flask run --port 8000
+  
+  # server2:
+  # depends_on: 
+  #    - redisdb
+  #    - server
+  #  image: server:latest
+  #  network_mode: host
+  #  command: flask run --port 8001
+    
+  redisdb:
+    image: redis:latest
+    network_mode: host
+    expose: 
+      - "6379"
