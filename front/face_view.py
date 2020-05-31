@@ -27,7 +27,7 @@ def login_user():
     node_endpoint,
     headers={'Content-Type': "application/json"},
     data={
-      'user': user,
+      'user': username,
       'pass': hash_pass
     }
   )
@@ -40,5 +40,28 @@ def login_user():
     return redirect('/')
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register')
 def register_user():
+  return render_template('register.html')
+
+@app.route('/register_new')
+def register__new_user():
+  node_endpoint = f"{NODE_ADDRESS}/validate_user"
+  hash_pass = sha256(request.form['userPass'].encode()).hexdigest()
+  username = request.form['userName']
+
+  response = requests.post(
+    node_endpoint,
+    headers={'Content-Type': "application/json"},
+    data={
+      'user': username,
+      'pass': hash_pass
+    }
+  )
+
+  if response.status_code == 200:
+    return render_template('login.html')
+  
+  elif response.status_code == 404:
+    # User not fund
+    return redirect('/')
