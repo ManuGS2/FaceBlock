@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Faceblock register{% endblock %}
+{% block login %}
+
+<form class="form-signin" action="/login" method="post">
+    <div class="d-flex justify-content-center">
+        <img src="/static/img/user.svg" width="85">
+    </div>
+    <h1 class="h3 mb-3 font-weight-normal">Member Signin</h1>
+    <input type="text" id="inputEmail" name="userName" class="form-control" placeholder="Username" required="" autofocus="">
+    <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Password" required="">
+    <input type="password" id="inputPassword" name="userPass2" class="form-control" placeholder="Verify password" required="">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">© Criptografía Semestre 2020-2</p>
+</form>
+
+{% endblock %}
