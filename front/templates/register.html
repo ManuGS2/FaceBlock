@@ -2,17 +2,17 @@
 {% block title %}Faceblock register{% endblock %}
 {% block register %}
 
-<form class="form-signin needs-validation" action="/register_new" method="post" novalidate>
+<form class="form-signin needs-validation" action="{{url_for('register_new_user')}}" method="post" novalidate>
     <p class="h2 mb-2 font-weight-normal text-center"> Welcome to Faceblock!</p>
     <div class="d-flex justify-content-center">
         <img src="/static/img/user.svg" width="85">
     </div>
-    <h1 class="h3 mb-3 font-weight-normal">Member Signin</h1>
+    <h1 class="h3 mb-3 font-weight-normal">{{message}}</h1>
 
     <div class="form-group row">
         <label for="colUsername" class="col-sm-3 col-form-label">Username</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="colUsername" placeholder="Username" required>
+            <input type="text" class="form-control" id="colUsername" name="colUsername" placeholder="Username" required>
             <div class="invalid-feedback">
                 Please choose a username.
             </div>
@@ -22,7 +22,7 @@
     <div class="form-group row">
         <label for="colPassword" class="col-sm-3 col-form-label">Password</label>
         <div class="col-sm-9">
-            <input type="password" class="form-control" id="colPassword" placeholder="Password" required minlength="5">
+            <input type="password" class="form-control" id="colPassword" name="colPassword" placeholder="Password" required minlength="5">
             <div class="invalid-feedback">
                 Please password must be at least 6 characters length
             </div>
