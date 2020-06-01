@@ -1,5 +1,5 @@
 FROM python:3.7-slim
-ENV FLASK_APP views.py
+ENV FLASK_APP face_view.py
 
 WORKDIR /front
 COPY . .

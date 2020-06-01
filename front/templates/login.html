@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Faceblock login{% endblock %}
+{% block login %}
+
+<form class="form-signin" action="{{url_for('login_user')}}" method="post">
+    <p class="h2 mb-2 font-weight-normal text-center"> Welcome to Faceblock!</p>
+    <div class="d-flex justify-content-center">
+        <img src="/static/img/user.svg" width="85">
+    </div>
+    <h1 class="h3 mb-3 font-weight-normal">{{message}}</h1>
+
+    <input type="text" id="inputEmail" name="userName" class="form-control" placeholder="Username" required="" autofocus="">
+    <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Password" required="">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+
+    <p class="text-center mt-3 mb-1"> New user? <a href="{{url_for('register_user')}}"> Register here </a></p>
+    <p class="mt-5 mb-3 text-muted">© Criptografía Semestre 2020-2</p>
+</form>
+
+{% endblock %}

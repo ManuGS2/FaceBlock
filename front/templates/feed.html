@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block feed %}
+<div class="container d-inline-block fixed-top">
+  <nav class="navbar navbar-light bg-light navbar-expand-lg justify-content-between"">
+    <div>
+      <img src="/static/img/user.svg" width="45" height="45" class="d-inline-block align-middle" alt="">
+      <p class="navbar-brand h2 mb-2 align-middle">Hi, {{user}}!</p>
+    </div>
+    <button type="button" class="btn btn-primary btn-md" onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container my-3">
+    <form action="{{url_for('submit_textarea')}}" method="POST">
+      <div class="form-group">
+        <label for="textarea1">What's on your mind?</label>
+        <textarea class="form-control" id="textarea1" name="textarea1" rows="2" required></textarea>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function logout(){
+    console.log("logging out")
+    document.cookie = "UserFB= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+    window.location.replace("/");
+  }
+</script>
+{% endblock %}

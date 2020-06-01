@@ -17,6 +17,30 @@ blockchain.create_genesis_block()
 # Opening connection pool to Redis
 r = redis.Redis(host='localhost', port=6379, db=0)
 
+# Endpoints to register and login a user
+@app.route('/loginUser', methods=['POST'])
+def user():
+    type_txn = request.get_json()["type"]
+    username = request.get_json()["user"]
+    pw = request.get_json()["pass"]
+
+    if type_txn == 'register':
+        r.hset('users', username, pw)
+        return "Registered succesfully", 200
+    
+    elif type_txn == 'login':
+        hash_pw = r.hget('users', username)
+        
+        if hash_pw is None:
+            return "User not found", 404
+
+        elif hash_pw.decode('ASCII') == pw:
+            return "Logged in", 200
+
+        else:
+            return "Wrong credentials", 400
+
+
 @app.route("/new_transaction", methods=["POST"])
 def new_transaction():
     txn_data = request.get_json()

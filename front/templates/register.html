@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Faceblock register{% endblock %}
+{% block register %}
+
+<form class="form-signin needs-validation" action="{{url_for('register_new_user')}}" method="post" novalidate>
+    <p class="h2 mb-2 font-weight-normal text-center"> Welcome to Faceblock!</p>
+    <div class="d-flex justify-content-center">
+        <img src="/static/img/user.svg" width="85">
+    </div>
+    <h1 class="h3 mb-3 font-weight-normal">{{message}}</h1>
+
+    <div class="form-group row">
+        <label for="colUsername" class="col-sm-3 col-form-label">Username</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="colUsername" name="colUsername" placeholder="Username" required>
+            <div class="invalid-feedback">
+                Please choose a username.
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="colPassword" class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="colPassword" name="colPassword" placeholder="Password" required minlength="5">
+            <div class="invalid-feedback">
+                Please password must be at least 6 characters length
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="colPassConf" class="col-sm-3 col-form-label">Confirm password</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="colPassConf" placeholder="Please confirm your password" required>
+            <div class="invalid-feedback">
+                Both passwords must match
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">© Criptografía Semestre 2020-2</p>
+</form>
+
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var form = document.getElementsByClassName('needs-validation')[0];
+            var pass = document.getElementById('colPassword')
+            var passConf = document.getElementById('colPassConf')
+            passConf.pattern = pass.value
+
+            // Loop over them and prevent submission
+            form.addEventListener('submit', function(event) {
+                passConf.pattern = pass.value
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        }, false);
+    })();
+</script>
+
+{% endblock %}
