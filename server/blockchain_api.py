@@ -16,6 +16,7 @@ blockchain.create_genesis_block()
 
 # Opening connection pool to Redis
 r = redis.Redis(host='localhost', port=6379, db=0)
+transac_count = 0
 
 # Endpoints to register and login a user
 @app.route('/loginUser', methods=['POST'])
@@ -43,14 +44,19 @@ def user():
 
 @app.route("/new_transaction", methods=["POST"])
 def new_transaction():
+    global transac_count
     txn_data = request.get_json()
-    required_fields = ["author", "content"]
+    required_fields = ["author", "content", "type"]
 
     if all(not txn_data.get(field) for field in required_fields):
         return "Invalid transaction data", 404
 
     txn_data["timestamp"] = time.time()
     blockchain.add_new_transaction(txn_data)
+    transac_count += 1
+    if transac_count == 5:
+        blockchain.mine()
+        transac_count = 0
 
     return "Transaction added", 201
 
@@ -66,7 +72,7 @@ def get_chain():
         "peers": peers
     })
     
-@app.route("/mine", methods=["GET"])
+'''@app.route("/mine", methods=["GET"])
 def mine_txns():
     result = blockchain.mine()
     
@@ -80,8 +86,7 @@ def mine_txns():
         if chain_length == len(blockchain.chain):
             announce_new_block(blockchain.last_block)
 
-        return "Block #{} is mined.".format(blockchain.last_block.index)
-
+        return f"Block #{blockchain.last_block.index} is mined."'''
 
 @app.route("/pending_txn", methods=["GET"])
 def get_pending_txns():

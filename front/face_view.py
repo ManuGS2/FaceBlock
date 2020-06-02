@@ -130,6 +130,7 @@ def submit_textarea():
     post_object = {
       'author': author,
       'content': post_content,
+      'type' : 'post'
     }
 
     # Submit a transaction
