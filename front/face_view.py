@@ -12,6 +12,28 @@ app = Flask(__name__)
 # Node in the blockchain
 NODE_ADDRESS = "http://127.0.0.1:8000"
 
+def fetch_posts():
+  chain_endpoint = f"{NODE_ADDRESS}/chain"
+  response = requests.get(chain_endpoint)
+
+  if response.status_code == 200:
+    content = []
+    chain = json.loads(response.content)
+
+    for block in chain["chain"]:
+      for txn in block["transactions"]:
+        txn["index"] = block["index"]
+        txn["hash"] = block["previous_hash"]
+        content.append(txn)
+
+    posts = sorted(
+      content,
+      key=lambda k: k['timestamp'],
+      reverse=True
+    )
+  
+  return posts
+
 @app.route('/')
 def index():
   username = request.cookies.get('UserFB')
@@ -23,9 +45,12 @@ def index():
     )
 
   else:
+
     return render_template(
       'feed.html',
-      user=username
+      user=username,
+      posts=fetch_posts(),
+      readable_time=timestamp_to_string
     )
   """return render_template(
     'feed.html',
@@ -105,6 +130,7 @@ def submit_textarea():
     post_object = {
       'author': author,
       'content': post_content,
+      'type' : 'post'
     }
 
     # Submit a transaction
@@ -118,24 +144,5 @@ def submit_textarea():
 
     return redirect('/')
 
-def fetch_posts():
-  chain_endpoint = f"{NODE_ADDRESS}/chain"
-  response = requests.get(chain_endpoint)
-
-  if response.status_code == 200:
-    content = []
-    chain = json.loads(response.content)
-
-    for block in chain["chain"]:
-      for txn in block["transactions"]:
-        txn["index"] = block["index"]
-        txn["hash"] = block["previous_hash"]
-        content.append(txn)
-
-    posts = sorted(
-      content,
-      key=lambda k: k['timestamp'],
-      reverse=True
-    )
-  
-  return posts
+def timestamp_to_string(epoch_time):
+    return datetime.datetime.fromtimestamp(epoch_time).strftime('%H:%M')
