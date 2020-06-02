@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block feed %}
-<div class="container d-inline-block fixed-top">
+<div class="container d-block col-4">
   <nav class="navbar navbar-light bg-light navbar-expand-lg justify-content-between"">
     <div>
       <img src="/static/img/user.svg" width="45" height="45" class="d-inline-block align-middle" alt="">
@@ -14,11 +14,30 @@
     <form action="{{url_for('submit_textarea')}}" method="POST">
       <div class="form-group">
         <label for="textarea1">What's on your mind?</label>
-        <textarea class="form-control" id="textarea1" name="textarea1" rows="2" required></textarea>
+        <textarea class="form-control" id="textarea1" name="textarea1" rows="3" required></textarea>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
     </form>
   </div>
+</div>
+
+<div class="h-100 d-inline-block col-8 overflow-auto">
+  {% for post in posts %}
+  <div class="card text-center col-8">
+    <div class="card-header">
+      <div style="background: rgb(0, 97, 146) none repeat scroll 0% 0%; box-shadow: rgb(0, 97, 146) 0px 0px 0px 2px;" class="post_box-avatar">{{post.author[0]}}</div>
+      <div class="name-header">{{post.author}}</div>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">{{post.content}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      Posted at <i>{{readable_time(post.timestamp)}}</i>
+    </div>
+  </div>
+  {% endfor %}
 </div>
 
 <script>

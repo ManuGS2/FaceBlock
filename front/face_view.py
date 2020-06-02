@@ -1,4 +1,5 @@
 import datetime
+import time
 import json
 import os
 from hashlib import sha256
@@ -14,7 +15,7 @@ NODE_ADDRESS = "http://127.0.0.1:8000"
 
 @app.route('/')
 def index():
-  username = request.cookies.get('UserFB')
+  """username = request.cookies.get('UserFB')
 
   if not username:
     return render_template(
@@ -23,14 +24,35 @@ def index():
     )
 
   else:
+    posts = fetch_posts()
     return render_template(
       'feed.html',
-      user=username
-    )
-  """return render_template(
+      user=username,
+      posts=posts,
+      readable_time=timestamp_to_string
+    )"""
+  return render_template(
     'feed.html',
-    user='Manu'
-  )"""
+    user='Manu',
+    posts=[
+      {
+        'author': "Emma",
+        'content': "some content",
+        'timestamp': time.time()
+      },
+      {
+        'author': "Manu",
+        'content': "Another some content",
+        'timestamp': time.time()
+      },
+      {
+        'author': "Emmanuel",
+        'content': "Another other some content",
+        'timestamp': time.time()
+      }
+    ],
+    readable_time=timestamp_to_string
+  )
 
 @app.route('/register')
 def register_user():
@@ -56,9 +78,12 @@ def login_user():
   )
 
   if response.status_code == 200:
+    posts = fetch_posts()
     resp = make_response(render_template(
       'feed.html',
-      user=username
+      user=username,
+      posts=posts,
+      readable_time=timestamp_to_string
     ))
     resp.set_cookie('UserFB', username)
     return resp
@@ -128,14 +153,13 @@ def fetch_posts():
 
     for block in chain["chain"]:
       for txn in block["transactions"]:
-        txn["index"] = block["index"]
-        txn["hash"] = block["previous_hash"]
         content.append(txn)
 
-    posts = sorted(
+    return sorted(
       content,
       key=lambda k: k['timestamp'],
       reverse=True
     )
-  
-  return posts
+
+def timestamp_to_string(epoch_time):
+  return datetime.datetime.fromtimestamp(epoch_time).strftime('%H:%M')
