@@ -22,6 +22,7 @@
 </div>
 
 <div class="h-100 d-inline-block col-8 overflow-auto">
+<div class="h-100 w-75 mx-auto">
   {% for post in posts %}
   {% if post.author == user %}
     {% set my_var = "float-right" %}
@@ -30,21 +31,18 @@
     {% set my_var = "float-left" %}
     {% set author = post.author %}
   {% endif %}
-  <div class="card text-center col-8 {{my_var}} mb-2">
-    <div class="card-header">
-      <div style="background: rgb(0, 97, 146) none repeat scroll 0% 0%; box-shadow: rgb(0, 97, 146) 0px 0px 0px 2px;" class="post_box-avatar">{{post.author[0]}}</div>
-      <div class="name-header">{{author}}</div>
+  <div class="card col-8 {{my_var}} mb-2 px-0">
+    <div class="card-header py-1">
+      <div style="background: rgb(0, 97, 146) none repeat scroll 0% 0%; box-shadow: rgb(0, 97, 146) 0px 0px 0px 2px;" class="post_box-avatar my-1">{{post.author[0]}}</div>
+      <div class="name-header h2 float-left my-1">{{author}}</div>
     </div>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
+    <div class="card-body text-center">
       <p class="card-text">{{post.content}}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    <div class="card-footer text-muted float-left">
-      Posted at <i>{{readable_time(post.timestamp)}}</i>
+      <p class="card-text float-left"><small class="text-muted">Posted on <i>{{readable_time(post.timestamp)}}</i></small></p>
     </div>
   </div>
   {% endfor %}
+</div>
 </div>
 
 <style>
