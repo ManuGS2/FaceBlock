@@ -13,7 +13,7 @@ class Blockchain(object):
 
     def create_genesis_block(self):
         genesis_block = Block(0, [], 0, "0")
-        genesis_block.hash = Blockchain.proof_of_work(genesis_block)
+        genesis_block.hash = self.proof_of_work(genesis_block)
         self.chain.append(genesis_block)
 
     @property
@@ -34,8 +34,7 @@ class Blockchain(object):
         self.chain.append(block)
         return True
 
-    @staticmethod
-    def proof_of_work(block):
+    def proof_of_work(self, block):
         block.nonce = 0
         computed_hash = block.get_hash()
         spam_filter = Filter("count.csv")
