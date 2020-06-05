@@ -54,7 +54,7 @@ def new_transaction():
     txn_data["timestamp"] = time.time()
     blockchain.add_new_transaction(txn_data)
     transac_count += 1
-    if transac_count == 5:
+    if transac_count == 1:
         blockchain.mine()
         transac_count = 0
 

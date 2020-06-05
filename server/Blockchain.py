@@ -1,5 +1,7 @@
 import time
+from hashlib import sha256
 from Block import Block
+from Filter import Filter
 
 
 class Blockchain(object):
@@ -36,6 +38,11 @@ class Blockchain(object):
     def proof_of_work(block):
         block.nonce = 0
         computed_hash = block.get_hash()
+        spam_filter = Filter("count.csv")
+        
+        for txn in self.unconfirmed_transactions:
+            if not spam_filter.classificator(txn["content"], 1):
+                return sha256("NaN".encode()).hexdigest()
 
         while not computed_hash.startswith('0' * Blockchain.difficulty):
             block.nonce += 1
