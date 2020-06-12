@@ -19,7 +19,7 @@ Each block is defined by the next:
 * Previous block (defined by its hash)
 
 Algorithm consists in look for such a *Nonce* value that when calculating hash function for that block, result begin with "00".
-Sentimental analysis consists in detect spam or bad words in the comment 
+Sentimental analysis consists in detect spam or bad words in the comment with help of Bayesian filter. If the comment is detected as spam, block is not mined
 
 ## Consensus algorithm
 The consensus for this blockchain is as simple as just select the larger chain as the valid chain
